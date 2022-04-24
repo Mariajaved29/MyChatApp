@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-community/async-storage";
-import createIconSetFromFontello from "react-native-vector-icons/dist/lib/create-icon-set-from-fontello";
 
 export const keys = {
     uuid: 'uuid'
@@ -16,7 +15,7 @@ const setAsyncStorage = async(key, item) => {
 const getAsyncStorage = async(key) => {
     try {
      const value =   await AsyncStorage.getItem(key)
-     if (value) {
+     if (value !== null) {
          return value;
      }
      else {
@@ -33,6 +32,7 @@ const clearAsyncStorage = async () => {
         await AsyncStorage.clear();
     } catch (error) {
         console.log(error)
+        return null;
         
     }
 }

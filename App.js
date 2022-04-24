@@ -1,14 +1,14 @@
 import React from 'react';
-import {
-  View,
-  Text, 
-  SafeAreaView} from 'react-native';
+import { Loader } from './src/component';
+import NavContainer from './src/navigation';
+import { StoreProvider } from './src/context/store/index';
 
 const App = () => {
   return(
-  <SafeAreaView>
-    <Text>Hello</Text>
-  </SafeAreaView>
+    <StoreProvider>
+  <NavContainer />
+  <Loader />
+  </StoreProvider>
   )
 };
 
