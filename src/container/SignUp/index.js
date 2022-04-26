@@ -5,12 +5,21 @@ import
   View 
 } 
 from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {globalStyle, color} from '../../utility'
 import {InputField, Logo, RoundCornerButton} from '../../component'
+import { Store } from '../../context/store'
+import { LOADING_START, LOADING_STOP } from '../../context/actions/types'
+import signUpRequest from '../../network/signup'
+import {setAsyncStorage} from '../../asyncStorage'
+import { setUniqueValue } from '../../utility/constants'
+import firebase from '../../firebase/config'
 
 
 const SignUp = ({navigation}) => {
+  const globalState = useContext(Store);
+  const { dispatchLoaderAction } = globalState;
+
   const [credentials, setCredentials] = useState({
     name: '',
     email: '',
@@ -37,7 +46,36 @@ const onSignUpPress = () => {
     alert('Password Did Not Match');
   }
   else{
-    alert(JSON.stringify(credentials));
+    dispatchLoaderAction({
+      type: LOADING_START,
+    });
+    signUpRequest(email, password)
+    .then(() => {
+      console.log(firebase.auth().currentUser.uid);
+      let uid = firebase.auth().currentUser.uid;
+      let profileImg = '';
+      AddUser(name, email, uid, profileImg)
+      .then(() => {
+        setAsyncStorage(keys.uuid, uid)
+        setUniqueValue(uid);
+        dispatchLoaderAction({
+          type: LOADING_STOP,
+        });
+        navigation.navigate('Dashboard')
+      })
+      .catch((err) => {
+        dispatchLoaderAction({
+          type: LOADING_STOP,
+        })
+        alert(err);
+      })
+    })
+    .catch((err) => {
+      dispatchLoaderAction({
+        type: LOADING_STOP,
+      })
+      alert(err);
+    })
   }
 }
   return (

@@ -5,7 +5,7 @@ export const Store = React.createContext();
 
 const dispatch = {};
 
-export function StoreProvider(props) {
+export const StoreProvider = (props) => {
     // All Reducers
 
     const [mapLoaderState, dispatchLoaderAction] = useReducer(Loader, dispatch);

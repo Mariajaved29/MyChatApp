@@ -4,6 +4,6 @@ import styles from './styles';
 
 export default ({logoStyle, logoTextStyle}) => (
   <View style={[styles.logo, logoStyle]}>
-    <Text style={[styles.text, logoTextStyle]}>📱</Text>
+    <Text style={[styles.text, logoTextStyle]}>💬</Text>
   </View>
 );

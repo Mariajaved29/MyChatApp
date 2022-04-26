@@ -6,7 +6,7 @@ import {color} from '../utility';
 
 const Stack = createNativeStackNavigator();
 
-function NavContainer() {
+const NavContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator 
